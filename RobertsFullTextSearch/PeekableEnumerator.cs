@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RobertsFullTextSearch
 {
-    public static class PeekableEnumeratorExtension
+    internal static class PeekableEnumeratorExtension
     {
         public static PeekableEnumerator<T> AsPeekable<T>(this IEnumerator<T> enumerator)
         {
@@ -14,7 +14,7 @@ namespace RobertsFullTextSearch
         }
     }
 
-    public class PeekableEnumerator<T> : IEnumerator<T>
+    internal class PeekableEnumerator<T> : IEnumerator<T>
     {
         protected enum Status { Uninitialized, Starting, Started, Ending, Ended }
 
