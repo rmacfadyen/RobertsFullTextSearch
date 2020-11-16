@@ -42,7 +42,7 @@ namespace RobertsFullTextSearchTests
         public void FirstIsMinusLastIsMinus()
         {
             var q = fts.ToFtsQuery("-leaping running -jumping");
-            Assert.AreEqual("FORMSOF(INFLECTIONAL, running) AND NOT FORMSOF(INFLECTIONAL, jumping) AND NOT FORMSOF(INFLECTIONAL, leaping)d", q);
+            Assert.AreEqual("FORMSOF(INFLECTIONAL, running) AND NOT FORMSOF(INFLECTIONAL, jumping) AND NOT FORMSOF(INFLECTIONAL, leaping)", q);
         }
         [TestMethod]
         public void FirstIsMinusThenOr()
