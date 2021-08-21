@@ -220,7 +220,14 @@ namespace RobertsFullTextSearch
             }
             else if (SearchTerm.StartsWith("-", StringComparison.OrdinalIgnoreCase))
             {
-                return $"NOT FORMSOF(INFLECTIONAL, {EscapeSearchTerm(SearchTerm.Substring(1))})";
+                if (SearchTerm[1] == '"')
+                {
+                    return $"NOT \"{EscapeQuotes(SearchTerm[2..^1].Trim())}\"";
+                }
+                else
+                {
+                    return $"NOT FORMSOF(INFLECTIONAL, {EscapeSearchTerm(SearchTerm.Substring(1))})";
+                }
             }
             else if (SearchTerm.EndsWith("*", StringComparison.OrdinalIgnoreCase))
             {

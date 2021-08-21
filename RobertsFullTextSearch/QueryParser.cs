@@ -20,8 +20,11 @@ namespace RobertsFullTextSearch
             
             var CurrentPhrase = string.Empty;
             var State = ParseStates.StartOfPhrase;
-            foreach (var c in SearchCriteria)
+            for (var i = 0; i < SearchCriteria.Length; i += 1)
             {
+                var c = SearchCriteria[i];
+                var NextChar = i + 1 < SearchCriteria.Length ? SearchCriteria[i + 1] : -1;
+
                 switch (State)
                 {
                     //
@@ -40,6 +43,12 @@ namespace RobertsFullTextSearch
                         if (c == '"')
                         {
                             State = ParseStates.QuotedText;
+                        }
+                        else if (c == '-' && NextChar == 34)
+                        {
+                            State = ParseStates.QuotedText;
+                            CurrentPhrase += '"';
+                            i += 1;
                         }
                         else
                         {

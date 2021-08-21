@@ -78,7 +78,7 @@ namespace RobertsFullTextSearchTests
         public void MinusAndQuotes()
         {
             var q = fts.ToFtsQuery("-\"leap\"ing");
-            Assert.AreEqual("\"leap\" AND FORMSOF(INFLECTIONAL, ing)", q);
+            Assert.AreEqual("FORMSOF(INFLECTIONAL, ing) AND NOT \"leap\"", q);
         }
 
         [TestMethod]
@@ -87,5 +87,24 @@ namespace RobertsFullTextSearchTests
             var q = fts.ToFtsQuery("-leaping");
             Assert.AreEqual("", q);
         }
+
+        [TestMethod]
+        public void MinusQuotedPhrase()
+        {
+            var q = fts.ToFtsQuery("big cats -\"sand cat\"");
+            Assert.AreEqual("FORMSOF(INFLECTIONAL, big) AND FORMSOF(INFLECTIONAL, cats) AND NOT \"sand cat\"", q);
+        }
+
+        [TestMethod]
+        public void OrMinusQuotedPhrase()
+        {
+            //
+            // There is no operator "OR NOT", just an "AND NOT" operator. Best 
+            // that can be done is to drop the OR NOT [term].
+            //
+            var q = fts.ToFtsQuery("big cats OR -\"sand cat\"");
+            Assert.AreEqual("FORMSOF(INFLECTIONAL, big) AND (FORMSOF(INFLECTIONAL, cats))", q);
+        }
+
     }
 }
